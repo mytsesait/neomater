@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Proprietário - Gerenciar Bebês Reborn</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #f4f7f6;
+      padding: 20px 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #dcdcdc;
+      border-radius: 12px;
+      padding: 20px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+    h2 {
+      color: #205c53;
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      height: 40px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      padding: 0 10px;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .btn {
+      width: 100%;
+      height: 45px;
+      background-color: #205c53;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .btn-cancel {
+      background-color: #888;
+      margin-top: 8px;
+      display: none;
+    }
+    .btn:disabled {
+      background-color: #a5c3bc;
+      cursor: not-allowed;
+    }
+    .item-card {
+      background: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .item-info {
+      font-size: 13px;
+      color: #333;
+      line-height: 1.5;
+    }
+    .item-info strong {
+      color: #205c53;
+    }
+    .actions-btn {
+      display: flex;
+      gap: 5px;
+    }
+    .btn-sm {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+    }
+    .btn-edit { background-color: #e08b9c; }
+    .btn-delete { background-color: #d32f2f; }
+    .status-msg {
+      font-size: 13px;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      display: none;
+    }
+    .status-success { background: #e8f5e9; color: #2e7d32; }
+    .status-error { background: #ffebee; color: #c62828; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Configuração do GitHub API (Uso Exclusivo do Administrador)</h2>
+    <label>Usuário do GitHub:</label>
+    <input type="text" id="ghUser" placeholder="Seu nome de usuário no GitHub">
+
+    <label>Nome do Repositório:</label>
+    <input type="text" id="ghRepo" placeholder="Ex: cartorio-reborn">
+
+    <label>GitHub Personal Access Token (PAT):</label>
+    <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx">
+
+    <button class="btn" onclick="salvarConfiguracoes()">Salvar e Carregar Dados</button>
+  </div>
+
+  <div class="card">
+    <h2 id="formTitle">Cadastrar Novo Bebê Reborn</h2>
+    <div id="statusMsg" class="status-msg"></div>
+
+    <form id="cadForm">
+      <input type="hidden" id="editIndex" value="-1">
+
+      <label>Matrícula (Código Único):</label>
+      <input type="text" id="matricula" required placeholder="Ex: 99900101552026">
+
+      <label>Nome do Bebê:</label>
+      <input type="text" id="nome" required placeholder="Ex: Sofia Reborn">
+
+      <label>Data de Nascimento:</label>
+      <input type="text" id="data_nascimento" required placeholder="Ex: 15/05/2026">
+
+      <label>Local de Nascimento:</label>
+      <input type="text" id="local" required placeholder="Ex: São Paulo - SP">
+
+      <label>Maternidade / Cegonha:</label>
+      <input type="text" id="cegonha" placeholder="Ex: Dona Cegonha">
+
+      <label>Peso:</label>
+      <input type="text" id="peso" placeholder="Ex: 2.100kg">
+
+      <label>Comprimento:</label>
+      <input type="text" id="comprimento" placeholder="Ex: 48cm">
+
+      <button type="button" id="btnSalvar" class="btn" onclick="salvarRegistro()">Salvar Bebê Reborn</button>
+      <button type="button" id="btnCancelar" class="btn btn-cancel" onclick="limparFormulario()">Cancelar Edição</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Bebês Cadastrados</h2>
+    <div id="listaRegistros">Carregando dados...</div>
+  </div>
+
+  <script>
+    let registros = [];
+    let fileSha = "";
+
+    function carregarConfiguracoes() {
+      document.getElementById('ghUser').value = localStorage.getItem('ghUser') || '';
+      document.getElementById('ghRepo').value = localStorage.getItem('ghRepo') || '';
+      document.getElementById('ghToken').value = localStorage.getItem('ghToken') || '';
+
+      if (localStorage.getItem('ghUser') && localStorage.getItem('ghRepo') && localStorage.getItem('ghToken')) {
+        buscarDadosGitHub();
+      } else {
+        document.getElementById('listaRegistros').innerHTML = 'Preencha os dados do GitHub acima para carregar.';
+      }
+    }
+
+    function salvarConfiguracoes() {
+      localStorage.setItem('ghUser', document.getElementById('ghUser').value.trim());
+      localStorage.setItem('ghRepo', document.getElementById('ghRepo').value.trim());
+      localStorage.setItem('ghToken', document.getElementById('ghToken').value.trim());
+      buscarDadosGitHub();
+    }
+
+    async function buscarDadosGitHub() {
+      const user = localStorage.getItem('ghUser');
+      const repo = localStorage.getItem('ghRepo');
+      const token = localStorage.getItem('ghToken');
+
+      mostrarStatus('Buscando dados no GitHub...', 'success');
+
+      try {
+        const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/dados.json`, {
+          headers: { 'Authorization': `token ${token}` }
+        });
+
+        if (res.status === 404) {
+          registros = [];
+          fileSha = "";
+          renderizarLista();
+          mostrarStatus('Arquivo dados.json ainda não existe. Será criado no primeiro cadastro.', 'success');
+          return;
+        }
+
+        const data = await res.json();
+        fileSha = data.sha;
+        const decodedContent = decodeURIComponent(escape(atob(data.content)));
+        registros = JSON.parse(decodedContent);
+        renderizarLista();
+        mostrarStatus('Dados carregados com sucesso!', 'success');
+      } catch (err) {
+        mostrarStatus('Erro ao carregar dados do GitHub. Verifique as credenciais.', 'error');
+      }
+    }
+
+    function renderizarLista() {
+      const divLista = document.getElementById('listaRegistros');
+      if (registros.length === 0) {
+        divLista.innerHTML = '<p style="font-size: 13px; color: #777;">Nenhum bebê cadastrado ainda.</p>';
+        return;
+      }
+
+      divLista.innerHTML = '';
+      registros.forEach((item, index) => {
+        divLista.innerHTML += `
+          <div class="item-card">
+            <div class="item-info">
+              <strong>${item.nome}</strong> (Matrícula: ${item.matricula})<br>
+              Nasc.: ${item.data_nascimento} - ${item.local}<br>
+              Cegonha: ${item.cegonha || '-'} | Peso: ${item.peso || '-'} | Comp.: ${item.comprimento || '-'}
+            </div>
+            <div class="actions-btn">
+              <button class="btn-sm btn-edit" onclick="editarRegistro(${index})">Editar</button>
+              <button class="btn-sm btn-delete" onclick="excluirRegistro(${index})">Excluir</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function editarRegistro(index) {
+      const item = registros[index];
+      document.getElementById('editIndex').value = index;
+      document.getElementById('matricula').value = item.matricula;
+      document.getElementById('nome').value = item.nome;
+      document.getElementById('data_nascimento').value = item.data_nascimento;
+      document.getElementById('local').value = item.local;
+      document.getElementById('cegonha').value = item.cegonha || '';
+      document.getElementById('peso').value = item.peso || '';
+      document.getElementById('comprimento').value = item.comprimento || '';
+
+      document.getElementById('formTitle').innerText = 'Editar Bebê Reborn';
+      document.getElementById('btnSalvar').innerText = 'Atualizar Cadastro';
+      document.getElementById('btnCancelar').style.display = 'block';
+    }
+
+    function limparFormulario() {
+      document.getElementById('editIndex').value = '-1';
+      document.getElementById('cadForm').reset();
+      document.getElementById('formTitle').innerText = 'Cadastrar Novo Bebê Reborn';
+      document.getElementById('btnSalvar').innerText = 'Salvar Bebê Reborn';
+      document.getElementById('btnCancelar').style.display = 'none';
+    }
+
+    async function salvarRegistro() {
+      const index = parseInt(document.getElementById('editIndex').value);
+      const mat = document.getElementById('matricula').value.trim();
+      const nom = document.getElementById('nome').value.trim();
+      const dat = document.getElementById('data_nascimento').value.trim();
+      const loc = document.getElementById('local').value.trim();
+
+      if (!mat || !nom || !dat || !loc) {
+        alert('Preencha todos os campos obrigatórios!');
+        return;
+      }
+
+      const novoObjeto = {
+        matricula: mat,
+        nome: nom,
+        data_nascimento: dat,
+        local: loc,
+        cegonha: document.getElementById('cegonha').value.trim(),
+        peso: document.getElementById('peso').value.trim(),
+        comprimento: document.getElementById('comprimento').value.trim()
+      };
+
+      if (index === -1) {
+        registros.push(novoObjeto);
+      } else {
+        registros[index] = novoObjeto;
+      }
+
+      await atualizarGitHub('Salvar bebê reborn');
+      limparFormulario();
+    }
+
+    async function excluirRegistro(index) {
+      if (confirm('Deseja realmente excluir este bebê?')) {
+        registros.splice(index, 1);
+        await atualizarGitHub('Excluir bebê reborn');
+      }
+    }
+
+    async function atualizarGitHub(mensagemCommit) {
+      const user = localStorage.getItem('ghUser');
+      const repo = localStorage.getItem('ghRepo');
+      const token = localStorage.getItem('ghToken');
+
+      if (!user || !repo || !token) {
+        alert('Configure o GitHub Token antes de salvar!');
+        return;
+      }
+
+      const btnSalvar = document.getElementById('btnSalvar');
+      btnSalvar.disabled = true;
+      mostrarStatus('Enviando e salvando dados no GitHub...', 'success');
+
+      const jsonString = JSON.stringify(registros, null, 2);
+      const contentBase64 = btoa(unescape(encodeURIComponent(jsonString)));
+
+      const bodyData = {
+        message: mensagemCommit,
+        content: contentBase64
+      };
+
+      if (fileSha) {
+        bodyData.sha = fileSha;
+      }
+
+      try {
+        const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/dados.json`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(bodyData)
+        });
+
+        if (res.ok) {
+          const resData = await res.json();
+          fileSha = resData.content.sha;
+          renderizarLista();
+          mostrarStatus('Salvo com sucesso no GitHub!', 'success');
+        } else {
+          mostrarStatus('Erro ao salvar dados no GitHub. Verifique o Token e permissões.', 'error');
+        }
+      } catch (e) {
+        mostrarStatus('Erro de conexão com o GitHub.', 'error');
+      }
+
+      btnSalvar.disabled = false;
+    }
+
+    function mostrarStatus(texto, tipo) {
+      const div = document.getElementById('statusMsg');
+      div.innerText = texto;
+      div.className = `status-msg status-${tipo}`;
+      div.style.display = 'block';
+    }
+
+    carregarConfiguracoes();
+  </script>
+</body>
+</html>

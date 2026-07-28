@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartório de Registro Civil Bebê Reborn Brasil</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: linear-gradient(180deg, #fff9f5 0%, #fbebe6 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 15px;
+      color: #333;
+    }
+    .top-header {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: #7a7a7a;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 600;
+    }
+    .avatar-container {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background-color: #ffffff;
+    }
+    .avatar-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .title-main {
+      font-size: 26px;
+      color: #205c53;
+      text-align: center;
+      font-family: 'Georgia', serif;
+      font-weight: bold;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: #e08b9c;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+    .subtitle span {
+      color: #9e8d8d;
+      font-weight: normal;
+    }
+    .tab-btn {
+      background: transparent;
+      border: 1.5px solid #205c53;
+      color: #205c53;
+      padding: 6px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 25px;
+      cursor: pointer;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.6);
+      border: 2px dashed #a5c3bc;
+      border-radius: 20px;
+      padding: 25px 20px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    }
+    .card-title {
+      font-size: 20px;
+      color: #205c53;
+      font-family: 'Georgia', serif;
+      margin-bottom: 6px;
+    }
+    .card-sub {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+    .input-field {
+      width: 100%;
+      height: 50px;
+      border-radius: 12px;
+      border: 1px solid #cce0db;
+      padding: 0 15px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      margin-bottom: 15px;
+      color: #333;
+      background-color: #fff;
+    }
+    .input-field::placeholder {
+      color: #a0b2ae;
+    }
+    .btn-submit {
+      width: 100%;
+      height: 50px;
+      background-color: #205c53;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .btn-submit:hover {
+      background-color: #17453f;
+    }
+    .result-box {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      display: none;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .result-success {
+      background-color: #e8f5e9;
+      border: 1px solid #c8e6c9;
+      color: #2e7d32;
+    }
+    .result-error {
+      background-color: #ffebee;
+      border: 1px solid #ffcdd2;
+      color: #c62828;
+      text-align: center;
+    }
+    .result-item {
+      margin-bottom: 6px;
+    }
+    .result-item strong {
+      color: #1b5e20;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-header">
+    REPÚBLICA FOFINHA DO AMOR MATERNO · SERVIÇO NOTARIAL E DE REGISTRO
+  </div>
+
+  <div class="avatar-container">
+    <img src="neomater.png" alt="Logo Neomater">
+  </div>
+
+  <h1 class="title-main">
+    Cartório de Registro Civil<br>Bebê Reborn Brasil
+  </h1>
+
+  <div class="subtitle">
+    Cegonha Delivery <span>· Neomater Dona Cegonha</span>
+  </div>
+
+  <button class="tab-btn">Consultar</button>
+
+  <div class="card">
+    <h2 class="card-title">Consultar certidão</h2>
+    <p class="card-sub">Digite a matrícula para validar a procedência do bebê reborn.</p>
+
+    <input type="text" id="matriculaInput" class="input-field" placeholder="Ex.: 999001 01 55 2026 ..." />
+
+    <button type="button" class="btn-submit" onclick="consultarMatricula()">Consultar Procedência</button>
+
+    <div id="resultBox" class="result-box"></div>
+  </div>
+
+  <script>
+    async function consultarMatricula() {
+      const rawInput = document.getElementById('matriculaInput').value;
+      const inputMatricula = rawInput.replace(/\s+/g, '').trim();
+      const resultBox = document.getElementById('resultBox');
+
+      if (!inputMatricula) {
+        resultBox.className = "result-box result-error";
+        resultBox.innerHTML = "Por favor, digite um número de matrícula.";
+        resultBox.style.display = "block";
+        return;
+      }
+
+      try {
+        const response = await fetch('dados.json?v=' + new Date().getTime());
+        if (!response.ok) throw new Error();
+        const registros = await response.json();
+
+        const encontrado = registros.find(item => item.matricula.replace(/\s+/g, '') === inputMatricula);
+
+        if (encontrado) {
+          resultBox.className = "result-box result-success";
+          resultBox.innerHTML = `
+            <div class="result-item"><strong>Status:</strong> Registro Oficial Validado ✅</div>
+            <div class="result-item"><strong>Matrícula:</strong> ${encontrado.matricula}</div>
+            <div class="result-item"><strong>Nome do Bebê:</strong> ${encontrado.nome}</div>
+            <div class="result-item"><strong>Data de Nascimento:</strong> ${encontrado.data_nascimento}</div>
+            <div class="result-item"><strong>Local:</strong> ${encontrado.local}</div>
+            <div class="result-item"><strong>Maternidade/Cegonha:</strong> ${encontrado.cegonha || 'N/A'}</div>
+            <div class="result-item"><strong>Peso:</strong> ${encontrado.peso || 'N/A'}</div>
+            <div class="result-item"><strong>Comprimento:</strong> ${encontrado.comprimento || 'N/A'}</div>
+          `;
+        } else {
+          resultBox.className = "result-box result-error";
+          resultBox.innerHTML = "<strong>Atenção:</strong> Produto desconhecido ou não cadastrado. Verifique a matrícula digitada.";
+        }
+      } catch (error) {
+        resultBox.className = "result-box result-error";
+        resultBox.innerHTML = "Nenhum bebê registrado até o momento ou erro na consulta.";
+      }
+
+      resultBox.style.display = "block";
+    }
+  </script>
+</body>
+</html>
