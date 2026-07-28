@@ -14,13 +14,84 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f0f2f5;
       color: #333;
-      padding: 20px;
-      line-height: 1.5;
+      display: flex;
+      min-height: 100vh;
     }
-    .wrapper {
-      max-width: 900px;
-      margin: 0 auto;
+
+    /* Layout Principal com Sidebar */
+    .sidebar {
+      width: 250px;
+      background-color: #1a252f;
+      color: #fff;
+      padding: 20px 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
     }
+
+    .sidebar h2 {
+      font-size: 18px;
+      color: #ecf0f1;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #34495e;
+      text-align: center;
+    }
+
+    .sidebar-btn {
+      width: 100%;
+      padding: 12px 15px;
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      border: 1px solid #34495e;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-btn:hover:not(:disabled) {
+      background-color: #34495e;
+      color: #fff;
+    }
+
+    .sidebar-btn:disabled {
+      background-color: #1a252f;
+      color: #7f8c8d;
+      border-color: #2c3e50;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .sidebar-btn.active {
+      background-color: #3182ce;
+      color: #fff;
+      border-color: #2b6cb0;
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background-color: #34495e;
+      margin: 10px 0;
+    }
+
+    .main-content {
+      margin-left: 250px;
+      flex: 1;
+      padding: 25px;
+      width: calc(100% - 250px);
+    }
+
     .header {
       background: #ffffff;
       padding: 20px 30px;
@@ -31,17 +102,20 @@
       align-items: center;
       justify-content: space-between;
     }
+
     .header h1 {
       font-size: 22px;
       color: #1a252f;
     }
+
     .card {
       background: #ffffff;
-      padding: 30px;
+      padding: 25px;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       margin-bottom: 25px;
     }
+
     .card h2 {
       font-size: 18px;
       color: #2c3e50;
@@ -49,12 +123,15 @@
       border-bottom: 2px solid #eef2f5;
       padding-bottom: 8px;
     }
+
     .form-group {
       margin-bottom: 15px;
     }
+
     .form-group.full {
       grid-column: span 2;
     }
+
     label {
       display: block;
       font-weight: 600;
@@ -62,6 +139,7 @@
       font-size: 14px;
       color: #4a5568;
     }
+
     input[type="text"],
     input[type="date"],
     input[type="time"],
@@ -74,23 +152,18 @@
       outline: none;
       transition: border-color 0.2s;
     }
+
     input:focus {
       border-color: #3182ce;
       box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
     }
+
     .grid-form {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 15px;
     }
-    @media (max-width: 600px) {
-      .grid-form {
-        grid-template-columns: 1fr;
-      }
-      .form-group.full {
-        grid-column: span 1;
-      }
-    }
+
     .btn {
       padding: 12px 20px;
       border: none;
@@ -102,25 +175,42 @@
       display: inline-block;
       text-align: center;
     }
+
     .btn:active {
       transform: scale(0.98);
     }
+
     .btn-primary {
       background-color: #3182ce;
       color: white;
       width: 100%;
       margin-top: 10px;
     }
+
     .btn-primary:hover {
       background-color: #2b6cb0;
     }
+
     .btn-secondary {
       background-color: #4a5568;
       color: white;
     }
+
     .btn-secondary:hover {
       background-color: #2d3748;
     }
+
+    .btn-cancel {
+      background-color: #e53e3e;
+      color: white;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn-cancel:hover {
+      background-color: #c53030;
+    }
+
     .status {
       margin-top: 15px;
       padding: 12px;
@@ -130,52 +220,73 @@
       font-weight: 600;
       text-align: center;
     }
+
     .status.success {
       background-color: #c6f6d5;
       color: #22543d;
       border: 1px solid #9ae6b4;
     }
+
     .status.error {
       background-color: #fed7d7;
       color: #742a2a;
       border: 1px solid #feb2b2;
     }
+
     .status.loading {
       background-color: #ebf8ff;
       color: #2c5282;
       border: 1px solid #bee3f8;
       display: block;
     }
+
     .search-section {
       display: flex;
       gap: 10px;
       margin-bottom: 20px;
     }
+
     .search-section input {
       flex: 1;
     }
+
     .table-responsive {
       overflow-x: auto;
       margin-top: 15px;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
       text-align: left;
     }
+
     th, td {
-      padding: 10px 12px;
+      padding: 12px;
       border-bottom: 1px solid #e2e8f0;
     }
+
     th {
       background-color: #f7fafc;
       color: #4a5568;
       font-weight: 600;
     }
-    tr:hover {
-      background-color: #f7fafc;
+
+    tr.linha-registro {
+      cursor: pointer;
+      transition: background-color 0.15s;
     }
+
+    tr.linha-registro:hover {
+      background-color: #edf2f7;
+    }
+
+    tr.linha-registro.selected {
+      background-color: #ebf8ff !important;
+      border-left: 4px solid #3182ce;
+    }
+
     .matricula-tag {
       font-family: monospace;
       font-weight: bold;
@@ -184,127 +295,177 @@
       border-radius: 4px;
       color: #2d3748;
     }
+
+    #containerFormulario {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        position: relative;
+        height: auto;
+      }
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+      }
+      .grid-form {
+        grid-template-columns: 1fr;
+      }
+      .form-group.full {
+        grid-column: span 1;
+      }
+    }
   </style>
 </head>
 <body>
 
-<div class="wrapper">
-
-  <div class="header">
-    <h1>Painel Administrativo Reborn</h1>
-    <button type="button" class="btn btn-secondary" onclick="carregarRegistros()">Atualizar Lista</button>
+  <!-- Menu Lateral Esquerdo -->
+  <div class="sidebar">
+    <h2>Painel Reborn</h2>
+    
+    <button type="button" class="sidebar-btn" id="btnIncluirNova" onclick="abrirFormularioIncluir()">
+      ➕ Incluir Nova
+    </button>
+    
+    <button type="button" class="sidebar-btn" id="btnEditar" disabled onclick="abrirFormularioEditar()">
+      ✏️ Editar
+    </button>
+    
+    <div class="sidebar-divider"></div>
+    
+    <button type="button" class="sidebar-btn" id="btnImprimir" disabled onclick="imprimirCertidao()">
+      🖨️ Imprimir / Salvar PDF
+    </button>
   </div>
 
-  <!-- Configuração do Token -->
-  <div class="card">
-    <h2>1. Autenticação GitHub</h2>
-    <div class="form-group">
-      <label for="token">Personal Access Token (PAT):</label>
-      <input type="password" id="token" placeholder="Cole seu token de acesso do GitHub aqui para permitir alterações">
+  <!-- Conteúdo Principal -->
+  <div class="main-content">
+
+    <div class="header">
+      <h1>Painel Administrativo Reborn</h1>
+      <button type="button" class="btn btn-secondary" onclick="carregarRegistros()">Atualizar Lista</button>
     </div>
-  </div>
 
-  <!-- Formulário de Cadastro -->
-  <div class="card">
-    <h2>2. Cadastrar Nova Certidão</h2>
-    <form id="formCadastro">
-      <div class="grid-form">
-        <div class="form-group full">
-          <label for="nomeBebe">Nome do Bebê:</label>
-          <input type="text" id="nomeBebe" required placeholder="Digite o nome completo do bebê">
+    <!-- Autenticação GitHub -->
+    <div class="card">
+      <h2>1. Autenticação GitHub</h2>
+      <div class="form-group">
+        <label for="token">Personal Access Token (PAT):</label>
+        <input type="password" id="token" placeholder="Cole seu token de acesso do GitHub aqui para permitir alterações">
+      </div>
+    </div>
+
+    <!-- Formulário de Cadastro / Edição -->
+    <div class="card" id="containerFormulario">
+      <h2 id="tituloFormulario">Cadastrar Nova Certidão</h2>
+      <form id="formCadastro">
+        <input type="hidden" id="matriculaEdicao" value="">
+        
+        <div class="grid-form">
+          <div class="form-group full">
+            <label for="nomeBebe">Nome do Bebê:</label>
+            <input type="text" id="nomeBebe" required placeholder="Digite o nome completo do bebê">
+          </div>
+
+          <div class="form-group">
+            <label for="dataNascimento">Data de Nascimento:</label>
+            <input type="date" id="dataNascimento" required>
+          </div>
+
+          <div class="form-group">
+            <label for="horaNascimento">Hora de Nascimento:</label>
+            <input type="time" id="horaNascimento" required>
+          </div>
+
+          <div class="form-group">
+            <label for="peso">Peso:</label>
+            <input type="text" id="peso" placeholder="ex: 2.500 kg" required>
+          </div>
+
+          <div class="form-group">
+            <label for="comprimento">Comprimento:</label>
+            <input type="text" id="comprimento" placeholder="ex: 48 cm" required>
+          </div>
+
+          <div class="form-group">
+            <label for="corOlhos">Cor dos Olhos:</label>
+            <input type="text" id="corOlhos" placeholder="ex: Castanhos / Azul">
+          </div>
+
+          <div class="form-group">
+            <label for="corCabelo">Cor do Cabelo:</label>
+            <input type="text" id="corCabelo" placeholder="ex: Castanho escuro / Loiro">
+          </div>
+
+          <div class="form-group full">
+            <label for="nomeMaePai">Nome da Mãe ou Pai:</label>
+            <input type="text" id="nomeMaePai" required placeholder="Nome completo dos responsáveis">
+          </div>
+
+          <div class="form-group">
+            <label for="parteira">Nome da Parteira:</label>
+            <input type="text" id="parteira" required placeholder="Nome da cegonha/parteira">
+          </div>
+
+          <div class="form-group">
+            <label for="parteiraAuxiliar">Parteira Auxiliar:</label>
+            <input type="text" id="parteiraAuxiliar" required placeholder="Nome da auxiliar">
+          </div>
+
+          <div class="form-group full">
+            <label for="localNascimento">Local de Nascimento:</label>
+            <input type="text" id="localNascimento" placeholder="ex: Maternidade Reborn - São Paulo" required>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="dataNascimento">Data de Nascimento:</label>
-          <input type="date" id="dataNascimento" required>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <button type="submit" class="btn btn-primary" id="btnSalvarForm">Salvar e Gerar Certidão</button>
+          <button type="button" class="btn btn-cancel" onclick="fecharFormulario()">Cancelar</button>
         </div>
+      </form>
 
-        <div class="form-group">
-          <label for="horaNascimento">Hora de Nascimento:</label>
-          <input type="time" id="horaNascimento" required>
-        </div>
+      <div id="status" class="status"></div>
+    </div>
 
-        <div class="form-group">
-          <label for="peso">Peso:</label>
-          <input type="text" id="peso" placeholder="ex: 2.500 kg" required>
-        </div>
-
-        <div class="form-group">
-          <label for="comprimento">Comprimento:</label>
-          <input type="text" id="comprimento" placeholder="ex: 48 cm" required>
-        </div>
-
-        <div class="form-group">
-          <label for="corOlhos">Cor dos Olhos:</label>
-          <input type="text" id="corOlhos" placeholder="ex: Castanhos / Azul">
-        </div>
-
-        <div class="form-group">
-          <label for="corCabelo">Cor do Cabelo:</label>
-          <input type="text" id="corCabelo" placeholder="ex: Castanho escuro / Loiro">
-        </div>
-
-        <div class="form-group full">
-          <label for="nomeMaePai">Nome da Mãe ou Pai:</label>
-          <input type="text" id="nomeMaePai" required placeholder="Nome completo dos responsáveis">
-        </div>
-
-        <div class="form-group">
-          <label for="parteira">Nome da Parteira:</label>
-          <input type="text" id="parteira" required placeholder="Nome da cegonha/parteira">
-        </div>
-
-        <div class="form-group">
-          <label for="parteiraAuxiliar">Parteira Auxiliar:</label>
-          <input type="text" id="parteiraAuxiliar" required placeholder="Nome da auxiliar">
-        </div>
-
-        <div class="form-group full">
-          <label for="localNascimento">Local de Nascimento:</label>
-          <input type="text" id="localNascimento" placeholder="ex: Maternidade Reborn - São Paulo" required>
-        </div>
+    <!-- Tabela de Registros -->
+    <div class="card">
+      <h2>2. Registros Existentes no Sistema</h2>
+      
+      <div class="search-section">
+        <input type="text" id="buscaTabela" placeholder="Buscar por matrícula ou nome do bebê..." onkeyup="filtrarTabela()">
       </div>
 
-      <button type="submit" class="btn btn-primary">Salvar e Gerar Certidão</button>
-    </form>
-
-    <div id="status" class="status"></div>
-  </div>
-
-  <!-- Registros Cadastrados e Busca -->
-  <div class="card">
-    <h2>3. Registros Existentes no Sistema</h2>
-    
-    <div class="search-section">
-      <input type="text" id="buscaTabela" placeholder="Buscar por matrícula ou nome do bebê..." onkeyup="filtrarTabela()">
+      <div class="table-responsive">
+        <table id="tabelaRegistros">
+          <thead>
+            <tr>
+              <th>Matrícula</th>
+              <th>Nome do Bebê</th>
+              <th>Data Nasc.</th>
+              <th>Mãe/Pai</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabela">
+            <tr>
+              <td colspan="4" style="text-align: center; color: #a0aec0;">Nenhum registro carregado ou token não informado.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <div class="table-responsive">
-      <table id="tabelaRegistros">
-        <thead>
-          <tr>
-            <th>Matrícula</th>
-            <th>Nome do Bebê</th>
-            <th>Data Nasc.</th>
-            <th>Mãe/Pai</th>
-          </tr>
-        </thead>
-        <tbody id="corpoTabela">
-          <tr>
-            <td colspan="4" style="text-align: center; color: #a0aec0;">Nenhum registro carregado ou token não informado.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
-
-</div>
-
 <script>
   const owner = "mytsesait";
   const repo = "neomater";
   const path = "dados.json";
   let listaGlobalRegistros = [];
+  let matriculaSelecionada = null;
 
   function formatarDataBR(dataISO) {
     if (!dataISO) return "";
@@ -330,6 +491,10 @@
       if (response.ok) {
         const fileData = await response.json();
         listaGlobalRegistros = JSON.parse(atob(fileData.content));
+        
+        // Mantém a ordem decrescente (mais recente primeiro)
+        listaGlobalRegistros.reverse();
+
         renderizarTabela(listaGlobalRegistros);
       } else if (response.status === 404) {
         corpoTabela.innerHTML = `<tr><td colspan="4" style="text-align: center;">Nenhum registro cadastrado ainda (dados.json não existe).</td></tr>`;
@@ -348,19 +513,44 @@
 
     if (!dados || dados.length === 0) {
       corpoTabela.innerHTML = `<tr><td colspan="4" style="text-align: center;">Nenhum registro encontrado.</td></tr>`;
+      desselecionarRegistro();
       return;
     }
 
-    dados.slice().reverse().forEach(item => {
+    dados.forEach(item => {
       const tr = document.createElement("tr");
+      tr.className = "linha-registro";
+      if (matriculaSelecionada === item.matricula) {
+        tr.classList.add("selected");
+      }
+
       tr.innerHTML = `
         <td><span class="matricula-tag">${item.matricula || '-'}</span></td>
         <td><strong>${item.nomeBebe || '-'}</strong></td>
         <td>${formatarDataBR(item.dataNascimento)}</td>
         <td>${item.nomeMaePai || '-'}</td>
       `;
+
+      tr.addEventListener("click", () => alternarSelecaoRegistro(item.matricula));
       corpoTabela.appendChild(tr);
     });
+  }
+
+  function alternarSelecaoRegistro(matricula) {
+    if (matriculaSelecionada === matricula) {
+      desselecionarRegistro();
+    } else {
+      matriculaSelecionada = matricula;
+      document.getElementById("btnEditar").disabled = false;
+      document.getElementById("btnImprimir").disabled = false;
+    }
+    renderizarTabela(listaGlobalRegistros);
+  }
+
+  function desselecionarRegistro() {
+    matriculaSelecionada = null;
+    document.getElementById("btnEditar").disabled = true;
+    document.getElementById("btnImprimir").disabled = true;
   }
 
   function filtrarTabela() {
@@ -374,20 +564,68 @@
     renderizarTabela(filtrados);
   }
 
+  function abrirFormularioIncluir() {
+    document.getElementById("tituloFormulario").textContent = "1. Cadastrar Nova Certidão";
+    document.getElementById("btnSalvarForm").textContent = "Salvar e Gerar Certidão";
+    document.getElementById("matriculaEdicao").value = "";
+    document.getElementById("formCadastro").reset();
+    document.getElementById("containerFormulario").style.display = "block";
+    document.getElementById("nomeBebe").focus();
+  }
+
+  function abrirFormularioEditar() {
+    if (!matriculaSelecionada) return;
+
+    const registro = listaGlobalRegistros.find(r => r.matricula === matriculaSelecionada);
+    if (!registro) return;
+
+    document.getElementById("tituloFormulario").textContent = `1. Editar Certidão (Matrícula: ${registro.matricula})`;
+    document.getElementById("btnSalvarForm").textContent = "Atualizar Certidão";
+    document.getElementById("matriculaEdicao").value = registro.matricula;
+
+    document.getElementById("nomeBebe").value = registro.nomeBebe || "";
+    document.getElementById("dataNascimento").value = registro.dataNascimento || "";
+    document.getElementById("horaNascimento").value = registro.horaNascimento || "";
+    document.getElementById("peso").value = registro.peso || "";
+    document.getElementById("comprimento").value = registro.comprimento || "";
+    document.getElementById("corOlhos").value = registro.corOlhos || "";
+    document.getElementById("corCabelo").value = registro.corCabelo || "";
+    document.getElementById("nomeMaePai").value = registro.nomeMaePai || "";
+    document.getElementById("parteira").value = registro.parteira || "";
+    document.getElementById("parteiraAuxiliar").value = registro.parteiraAuxiliar || "";
+    document.getElementById("localNascimento").value = registro.localNascimento || "";
+
+    document.getElementById("containerFormulario").style.display = "block";
+    document.getElementById("nomeBebe").focus();
+  }
+
+  function fecharFormulario() {
+    document.getElementById("containerFormulario").style.display = "none";
+    document.getElementById("formCadastro").reset();
+    document.getElementById("matriculaEdicao").value = "";
+    document.getElementById("status").style.display = "none";
+  }
+
+  function imprimirCertidao() {
+    if (!matriculaSelecionada) return;
+    window.open(`index.html?m=${encodeURIComponent(matriculaSelecionada)}`, '_blank');
+  }
+
   document.getElementById("formCadastro").addEventListener("submit", async function(e) {
     e.preventDefault();
     
     const token = document.getElementById("token").value.trim();
     const statusDiv = document.getElementById("status");
+    const matriculaEdicao = document.getElementById("matriculaEdicao").value;
 
     if (!token) {
-      alert("Por favor, informe o Personal Access Token no campo 1 antes de salvar.");
+      alert("Por favor, informe o Personal Access Token no campo de Autenticação antes de salvar.");
       document.getElementById("token").focus();
       return;
     }
 
     statusDiv.className = "status loading";
-    statusDiv.textContent = "Obtendo dados do repositório para cálculo da matrícula...";
+    statusDiv.textContent = "Obtendo dados do repositório...";
 
     try {
       let sha = "";
@@ -403,23 +641,27 @@
         registros = JSON.parse(atob(fileData.content));
       }
 
-      const anoAtual = new Date().getFullYear();
-      let novoSequencial = 1;
+      let matriculaFinal = matriculaEdicao;
 
-      if (registros.length > 0) {
-        const ultimosNumeros = registros.map(r => {
-          const m = r.matricula || "";
-          const parte = m.substring(3, 6);
-          return parseInt(parte, 10) || 0;
-        });
-        novoSequencial = Math.max(...ultimosNumeros) + 1;
+      if (!matriculaEdicao) {
+        const anoAtual = new Date().getFullYear();
+        let novoSequencial = 1;
+
+        if (registros.length > 0) {
+          const ultimosNumeros = registros.map(r => {
+            const m = r.matricula || "";
+            const parte = m.substring(3, 6);
+            return parseInt(parte, 10) || 0;
+          });
+          novoSequencial = Math.max(...ultimosNumeros) + 1;
+        }
+
+        const sequencialFormatado = String(novoSequencial).padStart(3, '0');
+        matriculaFinal = `999${sequencialFormatado} 01 55 ${anoAtual}`;
       }
 
-      const sequencialFormatado = String(novoSequencial).padStart(3, '0');
-      const matriculaGerada = `999${sequencialFormatado} 01 55 ${anoAtual}`;
-
-      const novoRegistro = {
-        matricula: matriculaGerada,
+      const dadosForm = {
+        matricula: matriculaFinal,
         nomeBebe: document.getElementById("nomeBebe").value.trim(),
         dataNascimento: document.getElementById("dataNascimento").value,
         horaNascimento: document.getElementById("horaNascimento").value,
@@ -433,14 +675,23 @@
         localNascimento: document.getElementById("localNascimento").value.trim()
       };
 
-      registros.push(novoRegistro);
+      if (matriculaEdicao) {
+        const idx = registros.findIndex(r => r.matricula === matriculaEdicao);
+        if (idx !== -1) {
+          registros[idx] = dadosForm;
+        } else {
+          registros.push(dadosForm);
+        }
+      } else {
+        registros.push(dadosForm);
+      }
 
       const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(registros, null, 2))));
 
-      statusDiv.textContent = "Enviando novos dados para o GitHub...";
+      statusDiv.textContent = "Enviando dados para o GitHub...";
 
       const putBody = {
-        message: `Novo registro de certidão: ${matriculaGerada}`,
+        message: matriculaEdicao ? `Atualização de registro: ${matriculaFinal}` : `Novo registro de certidão: ${matriculaFinal}`,
         content: contentEncoded
       };
       if (sha) putBody.sha = sha;
@@ -456,9 +707,12 @@
 
       if (putResponse.ok) {
         statusDiv.className = "status success";
-        statusDiv.textContent = `Certidão salva com sucesso! Nº de Matrícula gerado: ${matriculaGerada}`;
-        document.getElementById("formCadastro").reset();
-        carregarRegistros();
+        statusDiv.textContent = matriculaEdicao ? `Certidão atualizada com sucesso!` : `Certidão salva com sucesso! Nº de Matrícula: ${matriculaFinal}`;
+        
+        setTimeout(() => {
+          fecharFormulario();
+          carregarRegistros();
+        }, 1200);
       } else {
         const errData = await putResponse.json();
         throw new Error(errData.message || "Erro ao atualizar dados no servidor GitHub.");
@@ -478,4 +732,4 @@
 </script>
 
 </body>
-</html>
+</html>  
