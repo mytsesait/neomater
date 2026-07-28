@@ -3,372 +3,467 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel do Proprietário - Gerenciar Bebês Reborn</title>
+  <title>Painel Administrativo - Certidão Reborn</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      background: #f4f7f6;
-      padding: 20px 15px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      padding: 20px;
+      line-height: 1.5;
+    }
+    .wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .header {
+      background: #ffffff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
       display: flex;
-      flex-direction: column;
       align-items: center;
+      justify-content: space-between;
+    }
+    .header h1 {
+      font-size: 22px;
+      color: #1a252f;
     }
     .card {
       background: #ffffff;
-      border: 1px solid #dcdcdc;
-      border-radius: 12px;
-      padding: 20px;
-      width: 100%;
-      max-width: 600px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      margin-bottom: 20px;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
     }
-    h2 {
-      color: #205c53;
+    .card h2 {
+      font-size: 18px;
+      color: #2c3e50;
       margin-bottom: 15px;
-      font-size: 20px;
+      border-bottom: 2px solid #eef2f5;
+      padding-bottom: 8px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group.full {
+      grid-column: span 2;
     }
     label {
       display: block;
-      font-size: 13px;
-      color: #555;
-      margin-bottom: 4px;
-      font-weight: bold;
-    }
-    input {
-      width: 100%;
-      height: 40px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      padding: 0 10px;
+      font-weight: 600;
+      margin-bottom: 6px;
       font-size: 14px;
-      margin-bottom: 12px;
+      color: #4a5568;
+    }
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus {
+      border-color: #3182ce;
+      box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+    }
+    .grid-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    @media (max-width: 600px) {
+      .grid-form {
+        grid-template-columns: 1fr;
+      }
+      .form-group.full {
+        grid-column: span 1;
+      }
     }
     .btn {
-      width: 100%;
-      height: 45px;
-      background-color: #205c53;
-      color: white;
+      padding: 12px 20px;
       border: none;
-      border-radius: 8px;
-      font-weight: bold;
+      border-radius: 6px;
       font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
-      margin-top: 5px;
+      transition: background-color 0.2s, transform 0.1s;
+      display: inline-block;
+      text-align: center;
     }
-    .btn-cancel {
-      background-color: #888;
-      margin-top: 8px;
-      display: none;
+    .btn:active {
+      transform: scale(0.98);
     }
-    .btn:disabled {
-      background-color: #a5c3bc;
-      cursor: not-allowed;
+    .btn-primary {
+      background-color: #3182ce;
+      color: white;
+      width: 100%;
+      margin-top: 10px;
     }
-    .item-card {
-      background: #f9f9f9;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .btn-primary:hover {
+      background-color: #2b6cb0;
     }
-    .item-info {
-      font-size: 13px;
-      color: #333;
-      line-height: 1.5;
-    }
-    .item-info strong {
-      color: #205c53;
-    }
-    .actions-btn {
-      display: flex;
-      gap: 5px;
-    }
-    .btn-sm {
-      padding: 6px 12px;
-      border: none;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: bold;
-      cursor: pointer;
+    .btn-secondary {
+      background-color: #4a5568;
       color: white;
     }
-    .btn-edit { background-color: #e08b9c; }
-    .btn-delete { background-color: #d32f2f; }
-    .status-msg {
-      font-size: 13px;
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 12px;
-      display: none;
+    .btn-secondary:hover {
+      background-color: #2d3748;
     }
-    .status-success { background: #e8f5e9; color: #2e7d32; }
-    .status-error { background: #ffebee; color: #c62828; }
+    .status {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 6px;
+      display: none;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .status.success {
+      background-color: #c6f6d5;
+      color: #22543d;
+      border: 1px solid #9ae6b4;
+    }
+    .status.error {
+      background-color: #fed7d7;
+      color: #742a2a;
+      border: 1px solid #feb2b2;
+    }
+    .status.loading {
+      background-color: #ebf8ff;
+      color: #2c5282;
+      border: 1px solid #bee3f8;
+      display: block;
+    }
+    .search-section {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .search-section input {
+      flex: 1;
+    }
+    .table-responsive {
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      text-align: left;
+    }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background-color: #f7fafc;
+      color: #4a5568;
+      font-weight: 600;
+    }
+    tr:hover {
+      background-color: #f7fafc;
+    }
+    .matricula-tag {
+      font-family: monospace;
+      font-weight: bold;
+      background: #edf2f7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #2d3748;
+    }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <h2>Configuração do GitHub API (Uso Exclusivo do Administrador)</h2>
-    <label>Usuário do GitHub:</label>
-    <input type="text" id="ghUser" placeholder="Seu nome de usuário no GitHub">
+<div class="wrapper">
 
-    <label>Nome do Repositório:</label>
-    <input type="text" id="ghRepo" placeholder="Ex: cartorio-reborn">
-
-    <label>GitHub Personal Access Token (PAT):</label>
-    <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx">
-
-    <button class="btn" onclick="salvarConfiguracoes()">Salvar e Carregar Dados</button>
+  <div class="header">
+    <h1>Painel Administrativo Reborn</h1>
+    <button type="button" class="btn btn-secondary" onclick="carregarRegistros()">Atualizar Lista</button>
   </div>
 
+  <!-- Configuração do Token -->
   <div class="card">
-    <h2 id="formTitle">Cadastrar Novo Bebê Reborn</h2>
-    <div id="statusMsg" class="status-msg"></div>
+    <h2>1. Autenticação GitHub</h2>
+    <div class="form-group">
+      <label for="token">Personal Access Token (PAT):</label>
+      <input type="password" id="token" placeholder="Cole seu token de acesso do GitHub aqui para permitir alterações">
+    </div>
+  </div>
 
-    <form id="cadForm">
-      <input type="hidden" id="editIndex" value="-1">
+  <!-- Formulário de Cadastro -->
+  <div class="card">
+    <h2>2. Cadastrar Nova Certidão</h2>
+    <form id="formCadastro">
+      <div class="grid-form">
+        <div class="form-group full">
+          <label for="nomeBebe">Nome do Bebê:</label>
+          <input type="text" id="nomeBebe" required placeholder="Digite o nome completo do bebê">
+        </div>
 
-      <label>Matrícula (Código Único):</label>
-      <input type="text" id="matricula" required placeholder="Ex: 99900101552026">
+        <div class="form-group">
+          <label for="dataNascimento">Data de Nascimento:</label>
+          <input type="date" id="dataNascimento" required>
+        </div>
 
-      <label>Nome do Bebê:</label>
-      <input type="text" id="nome" required placeholder="Ex: Sofia Reborn">
+        <div class="form-group">
+          <label for="horaNascimento">Hora de Nascimento:</label>
+          <input type="time" id="horaNascimento" required>
+        </div>
 
-      <label>Data de Nascimento:</label>
-      <input type="text" id="data_nascimento" required placeholder="Ex: 15/05/2026">
+        <div class="form-group">
+          <label for="peso">Peso:</label>
+          <input type="text" id="peso" placeholder="ex: 2.500 kg" required>
+        </div>
 
-      <label>Local de Nascimento:</label>
-      <input type="text" id="local" required placeholder="Ex: São Paulo - SP">
+        <div class="form-group">
+          <label for="comprimento">Comprimento:</label>
+          <input type="text" id="comprimento" placeholder="ex: 48 cm" required>
+        </div>
 
-      <label>Maternidade / Cegonha:</label>
-      <input type="text" id="cegonha" placeholder="Ex: Dona Cegonha">
+        <div class="form-group full">
+          <label for="nomeMaePai">Nome da Mãe ou Pai:</label>
+          <input type="text" id="nomeMaePai" required placeholder="Nome completo dos responsáveis">
+        </div>
 
-      <label>Peso:</label>
-      <input type="text" id="peso" placeholder="Ex: 2.100kg">
+        <div class="form-group">
+          <label for="parteira">Nome da Parteira:</label>
+          <input type="text" id="parteira" required placeholder="Nome da cegonha/parteira">
+        </div>
 
-      <label>Comprimento:</label>
-      <input type="text" id="comprimento" placeholder="Ex: 48cm">
+        <div class="form-group">
+          <label for="parteiraAuxiliar">Parteira Auxiliar:</label>
+          <input type="text" id="parteiraAuxiliar" required placeholder="Nome da auxiliar">
+        </div>
 
-      <button type="button" id="btnSalvar" class="btn" onclick="salvarRegistro()">Salvar Bebê Reborn</button>
-      <button type="button" id="btnCancelar" class="btn btn-cancel" onclick="limparFormulario()">Cancelar Edição</button>
+        <div class="form-group full">
+          <label for="localNascimento">Local de Nascimento:</label>
+          <input type="text" id="localNascimento" placeholder="ex: Maternidade Reborn - São Paulo" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Salvar e Gerar Certidão</button>
     </form>
+
+    <div id="status" class="status"></div>
   </div>
 
+  <!-- Registros Cadastrados e Busca -->
   <div class="card">
-    <h2>Bebês Cadastrados</h2>
-    <div id="listaRegistros">Carregando dados...</div>
+    <h2>3. Registros Existentes no Sistema</h2>
+    
+    <div class="search-section">
+      <input type="text" id="buscaTabela" placeholder="Buscar por matrícula ou nome do bebê..." onkeyup="filtrarTabela()">
+    </div>
+
+    <div class="table-responsive">
+      <table id="tabelaRegistros">
+        <thead>
+          <tr>
+            <th>Matrícula</th>
+            <th>Nome do Bebê</th>
+            <th>Data Nasc.</th>
+            <th>Mãe/Pai</th>
+          </tr>
+        </thead>
+        <tbody id="corpoTabela">
+          <tr>
+            <td colspan="4" style="text-align: center; color: #a0aec0;">Nenhum registro carregado ou token não informado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <script>
-    let registros = [];
-    let fileSha = "";
+</div>
 
-    function carregarConfiguracoes() {
-      document.getElementById('ghUser').value = localStorage.getItem('ghUser') || '';
-      document.getElementById('ghRepo').value = localStorage.getItem('ghRepo') || '';
-      document.getElementById('ghToken').value = localStorage.getItem('ghToken') || '';
+<script>
+  const owner = "mytsesait";
+  const repo = "neomater";
+  const path = "dados.json";
+  let listaGlobalRegistros = [];
 
-      if (localStorage.getItem('ghUser') && localStorage.getItem('ghRepo') && localStorage.getItem('ghToken')) {
-        buscarDadosGitHub();
-      } else {
-        document.getElementById('listaRegistros').innerHTML = 'Preencha os dados do GitHub acima para carregar.';
-      }
+  function formatarDataBR(dataISO) {
+    if (!dataISO) return "";
+    const partes = dataISO.split("-");
+    if (partes.length === 3) {
+      return `${partes[2]}/${partes[1]}/${partes[0]}`;
     }
+    return dataISO;
+  }
 
-    function salvarConfiguracoes() {
-      localStorage.setItem('ghUser', document.getElementById('ghUser').value.trim());
-      localStorage.setItem('ghRepo', document.getElementById('ghRepo').value.trim());
-      localStorage.setItem('ghToken', document.getElementById('ghToken').value.trim());
-      buscarDadosGitHub();
-    }
+  async function carregarRegistros() {
+    const token = document.getElementById("token").value.trim();
+    const corpoTabela = document.getElementById("corpoTabela");
 
-    async function buscarDadosGitHub() {
-      const user = localStorage.getItem('ghUser');
-      const repo = localStorage.getItem('ghRepo');
-      const token = localStorage.getItem('ghToken');
+    try {
+      const headers = {};
+      if (token) headers["Authorization"] = `token ${token}`;
 
-      mostrarStatus('Buscando dados no GitHub...', 'success');
-
-      try {
-        const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/dados.json`, {
-          headers: { 'Authorization': `token ${token}` }
-        });
-
-        if (res.status === 404) {
-          registros = [];
-          fileSha = "";
-          renderizarLista();
-          mostrarStatus('Arquivo dados.json ainda não existe. Será criado no primeiro cadastro.', 'success');
-          return;
-        }
-
-        const data = await res.json();
-        fileSha = data.sha;
-        const decodedContent = decodeURIComponent(escape(atob(data.content)));
-        registros = JSON.parse(decodedContent);
-        renderizarLista();
-        mostrarStatus('Dados carregados com sucesso!', 'success');
-      } catch (err) {
-        mostrarStatus('Erro ao carregar dados do GitHub. Verifique as credenciais.', 'error');
-      }
-    }
-
-    function renderizarLista() {
-      const divLista = document.getElementById('listaRegistros');
-      if (registros.length === 0) {
-        divLista.innerHTML = '<p style="font-size: 13px; color: #777;">Nenhum bebê cadastrado ainda.</p>';
-        return;
-      }
-
-      divLista.innerHTML = '';
-      registros.forEach((item, index) => {
-        divLista.innerHTML += `
-          <div class="item-card">
-            <div class="item-info">
-              <strong>${item.nome}</strong> (Matrícula: ${item.matricula})<br>
-              Nasc.: ${item.data_nascimento} - ${item.local}<br>
-              Cegonha: ${item.cegonha || '-'} | Peso: ${item.peso || '-'} | Comp.: ${item.comprimento || '-'}
-            </div>
-            <div class="actions-btn">
-              <button class="btn-sm btn-edit" onclick="editarRegistro(${index})">Editar</button>
-              <button class="btn-sm btn-delete" onclick="excluirRegistro(${index})">Excluir</button>
-            </div>
-          </div>
-        `;
+      const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?v=${new Date().getTime()}`, {
+        headers: headers
       });
-    }
 
-    function editarRegistro(index) {
-      const item = registros[index];
-      document.getElementById('editIndex').value = index;
-      document.getElementById('matricula').value = item.matricula;
-      document.getElementById('nome').value = item.nome;
-      document.getElementById('data_nascimento').value = item.data_nascimento;
-      document.getElementById('local').value = item.local;
-      document.getElementById('cegonha').value = item.cegonha || '';
-      document.getElementById('peso').value = item.peso || '';
-      document.getElementById('comprimento').value = item.comprimento || '';
-
-      document.getElementById('formTitle').innerText = 'Editar Bebê Reborn';
-      document.getElementById('btnSalvar').innerText = 'Atualizar Cadastro';
-      document.getElementById('btnCancelar').style.display = 'block';
-    }
-
-    function limparFormulario() {
-      document.getElementById('editIndex').value = '-1';
-      document.getElementById('cadForm').reset();
-      document.getElementById('formTitle').innerText = 'Cadastrar Novo Bebê Reborn';
-      document.getElementById('btnSalvar').innerText = 'Salvar Bebê Reborn';
-      document.getElementById('btnCancelar').style.display = 'none';
-    }
-
-    async function salvarRegistro() {
-      const index = parseInt(document.getElementById('editIndex').value);
-      const mat = document.getElementById('matricula').value.trim();
-      const nom = document.getElementById('nome').value.trim();
-      const dat = document.getElementById('data_nascimento').value.trim();
-      const loc = document.getElementById('local').value.trim();
-
-      if (!mat || !nom || !dat || !loc) {
-        alert('Preencha todos os campos obrigatórios!');
-        return;
-      }
-
-      const novoObjeto = {
-        matricula: mat,
-        nome: nom,
-        data_nascimento: dat,
-        local: loc,
-        cegonha: document.getElementById('cegonha').value.trim(),
-        peso: document.getElementById('peso').value.trim(),
-        comprimento: document.getElementById('comprimento').value.trim()
-      };
-
-      if (index === -1) {
-        registros.push(novoObjeto);
+      if (response.ok) {
+        const fileData = await response.json();
+        listaGlobalRegistros = JSON.parse(atob(fileData.content));
+        renderizarTabela(listaGlobalRegistros);
+      } else if (response.status === 404) {
+        corpoTabela.innerHTML = `<tr><td colspan="4" style="text-align: center;">Nenhum registro cadastrado ainda (dados.json não existe).</td></tr>`;
       } else {
-        registros[index] = novoObjeto;
+        throw new Error("Erro ao carregar dados do GitHub.");
       }
+    } catch (err) {
+      console.error(err);
+      corpoTabela.innerHTML = `<tr><td colspan="4" style="text-align: center; color: red;">Erro ao carregar registros. Verifique a conexão ou a permissão.</td></tr>`;
+    }
+  }
 
-      await atualizarGitHub('Salvar bebê reborn');
-      limparFormulario();
+  function renderizarTabela(dados) {
+    const corpoTabela = document.getElementById("corpoTabela");
+    corpoTabela.innerHTML = "";
+
+    if (!dados || dados.length === 0) {
+      corpoTabela.innerHTML = `<tr><td colspan="4" style="text-align: center;">Nenhum registro encontrado.</td></tr>`;
+      return;
     }
 
-    async function excluirRegistro(index) {
-      if (confirm('Deseja realmente excluir este bebê?')) {
-        registros.splice(index, 1);
-        await atualizarGitHub('Excluir bebê reborn');
-      }
+    dados.slice().reverse().forEach(item => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><span class="matricula-tag">${item.matricula || '-'}</span></td>
+        <td><strong>${item.nomeBebe || '-'}</strong></td>
+        <td>${formatarDataBR(item.dataNascimento)}</td>
+        <td>${item.nomeMaePai || '-'}</td>
+      `;
+      corpoTabela.appendChild(tr);
+    });
+  }
+
+  function filtrarTabela() {
+    const termo = document.getElementById("buscaTabela").value.toLowerCase();
+    const filtrados = listaGlobalRegistros.filter(r => {
+      const matricula = (r.matricula || "").toLowerCase();
+      const nome = (r.nomeBebe || "").toLowerCase();
+      const responsavel = (r.nomeMaePai || "").toLowerCase();
+      return matricula.includes(termo) || nome.includes(termo) || responsavel.includes(termo);
+    });
+    renderizarTabela(filtrados);
+  }
+
+  document.getElementById("formCadastro").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    
+    const token = document.getElementById("token").value.trim();
+    const statusDiv = document.getElementById("status");
+
+    if (!token) {
+      alert("Por favor, informe o Personal Access Token no campo 1 antes de salvar.");
+      document.getElementById("token").focus();
+      return;
     }
 
-    async function atualizarGitHub(mensagemCommit) {
-      const user = localStorage.getItem('ghUser');
-      const repo = localStorage.getItem('ghRepo');
-      const token = localStorage.getItem('ghToken');
+    statusDiv.className = "status loading";
+    statusDiv.textContent = "Obtendo dados do repositório para cálculo da matrícula...";
 
-      if (!user || !repo || !token) {
-        alert('Configure o GitHub Token antes de salvar!');
-        return;
+    try {
+      let sha = "";
+      let registros = [];
+
+      const getResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+        headers: { "Authorization": `token ${token}` }
+      });
+
+      if (getResponse.ok) {
+        const fileData = await getResponse.json();
+        sha = fileData.sha;
+        registros = JSON.parse(atob(fileData.content));
       }
 
-      const btnSalvar = document.getElementById('btnSalvar');
-      btnSalvar.disabled = true;
-      mostrarStatus('Enviando e salvando dados no GitHub...', 'success');
+      const anoAtual = new Date().getFullYear();
+      let novoSequencial = 1;
 
-      const jsonString = JSON.stringify(registros, null, 2);
-      const contentBase64 = btoa(unescape(encodeURIComponent(jsonString)));
+      if (registros.length > 0) {
+        const ultimosNumeros = registros.map(r => {
+          const m = r.matricula || "";
+          const parte = m.substring(3, 6);
+          return parseInt(parte, 10) || 0;
+        });
+        novoSequencial = Math.max(...ultimosNumeros) + 1;
+      }
 
-      const bodyData = {
-        message: mensagemCommit,
-        content: contentBase64
+      const sequencialFormatado = String(novoSequencial).padStart(3, '0');
+      const matriculaGerada = `999${sequencialFormatado} 01 55 ${anoAtual}`;
+
+      const novoRegistro = {
+        matricula: matriculaGerada,
+        nomeBebe: document.getElementById("nomeBebe").value.trim(),
+        dataNascimento: document.getElementById("dataNascimento").value,
+        horaNascimento: document.getElementById("horaNascimento").value,
+        peso: document.getElementById("peso").value.trim(),
+        comprimento: document.getElementById("comprimento").value.trim(),
+        nomeMaePai: document.getElementById("nomeMaePai").value.trim(),
+        parteira: document.getElementById("parteira").value.trim(),
+        parteiraAuxiliar: document.getElementById("parteiraAuxiliar").value.trim(),
+        localNascimento: document.getElementById("localNascimento").value.trim()
       };
 
-      if (fileSha) {
-        bodyData.sha = fileSha;
+      registros.push(novoRegistro);
+
+      const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(registros, null, 2))));
+
+      statusDiv.textContent = "Enviando novos dados para o GitHub...";
+
+      const putBody = {
+        message: `Novo registro de certidão: ${matriculaGerada}`,
+        content: contentEncoded
+      };
+      if (sha) putBody.sha = sha;
+
+      const putResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `token ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(putBody)
+      });
+
+      if (putResponse.ok) {
+        statusDiv.className = "status success";
+        statusDiv.textContent = `Certidão salva com sucesso! Nº de Matrícula gerado: ${matriculaGerada}`;
+        document.getElementById("formCadastro").reset();
+        carregarRegistros();
+      } else {
+        const errData = await putResponse.json();
+        throw new Error(errData.message || "Erro ao atualizar dados no servidor GitHub.");
       }
 
-      try {
-        const res = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/dados.json`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `token ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(bodyData)
-        });
-
-        if (res.ok) {
-          const resData = await res.json();
-          fileSha = resData.content.sha;
-          renderizarLista();
-          mostrarStatus('Salvo com sucesso no GitHub!', 'success');
-        } else {
-          mostrarStatus('Erro ao salvar dados no GitHub. Verifique o Token e permissões.', 'error');
-        }
-      } catch (e) {
-        mostrarStatus('Erro de conexão com o GitHub.', 'error');
-      }
-
-      btnSalvar.disabled = false;
+    } catch (err) {
+      statusDiv.className = "status error";
+      statusDiv.textContent = "Erro: " + err.message;
     }
+  });
 
-    function mostrarStatus(texto, tipo) {
-      const div = document.getElementById('statusMsg');
-      div.innerText = texto;
-      div.className = `status-msg status-${tipo}`;
-      div.style.display = 'block';
+  document.getElementById("token").addEventListener("blur", function() {
+    if (this.value.trim()) {
+      carregarRegistros();
     }
+  });
+</script>
 
-    carregarConfiguracoes();
-  </script>
 </body>
 </html>
