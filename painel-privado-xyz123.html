@@ -234,6 +234,16 @@
           <input type="text" id="comprimento" placeholder="ex: 48 cm" required>
         </div>
 
+        <div class="form-group">
+          <label for="corOlhos">Cor dos Olhos:</label>
+          <input type="text" id="corOlhos" placeholder="ex: Castanhos / Azul">
+        </div>
+
+        <div class="form-group">
+          <label for="corCabelo">Cor do Cabelo:</label>
+          <input type="text" id="corCabelo" placeholder="ex: Castanho escuro / Loiro">
+        </div>
+
         <div class="form-group full">
           <label for="nomeMaePai">Nome da Mãe ou Pai:</label>
           <input type="text" id="nomeMaePai" required placeholder="Nome completo dos responsáveis">
@@ -415,6 +425,8 @@
         horaNascimento: document.getElementById("horaNascimento").value,
         peso: document.getElementById("peso").value.trim(),
         comprimento: document.getElementById("comprimento").value.trim(),
+        corOlhos: document.getElementById("corOlhos").value.trim(),
+        corCabelo: document.getElementById("corCabelo").value.trim(),
         nomeMaePai: document.getElementById("nomeMaePai").value.trim(),
         parteira: document.getElementById("parteira").value.trim(),
         parteiraAuxiliar: document.getElementById("parteiraAuxiliar").value.trim(),

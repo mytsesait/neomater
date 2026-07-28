@@ -338,6 +338,7 @@
       <img src="neomater.png" alt="Logo Neomater">
       <div class="subtitle">Certidão de Nascimento · Via Única</div>
       <div class="title">Cartório de Registro Civil de Nascimento de Bebê Reborn Brasil</div>
+      <div class="subtitle" style="color: #2e5a44; margin-bottom: 5px;">NEOMATER DONA CEGONHA</div>
       <div class="nome-bebe" id="resNomeBebe">-</div>
     </div>
 
@@ -366,6 +367,14 @@
         <span class="field-label">Comprimento</span>
         <span class="field-value" id="resComprimento">-</span>
       </div>
+      <div class="field-block">
+        <span class="field-label">Cor dos Olhos</span>
+        <span class="field-value" id="resCorOlhos">-</span>
+      </div>
+      <div class="field-block">
+        <span class="field-label">Cor do Cabelo</span>
+        <span class="field-value" id="resCorCabelo">-</span>
+      </div>
       <div class="field-block full">
         <span class="field-label">Local de Nascimento</span>
         <span class="field-value" id="resLocalNascimento">-</span>
@@ -393,7 +402,7 @@
     <div class="certidao-footer">
       <div class="assinatura-block">
         <strong>Dona Cegonha</strong>
-        Oficial do Registro Civil
+        Oficiala do Registro Civil
       </div>
       <button class="btn-copiar" onclick="copiarMatricula()">Copiar matrícula</button>
     </div>
@@ -456,6 +465,8 @@
         document.getElementById("resHoraNascimento").textContent = resultado.horaNascimento || "-";
         document.getElementById("resPeso").textContent = resultado.peso || "-";
         document.getElementById("resComprimento").textContent = resultado.comprimento || "-";
+        document.getElementById("resCorOlhos").textContent = resultado.corOlhos || "-";
+        document.getElementById("resCorCabelo").textContent = resultado.corCabelo || "-";
         document.getElementById("resLocalNascimento").textContent = resultado.localNascimento || "-";
         document.getElementById("resNomeMaePai").textContent = resultado.nomeMaePai || "-";
         document.getElementById("resParteira").textContent = resultado.parteira || "-";
