@@ -2,13 +2,15 @@
   {
     "matricula": "999001 01 55 2026",
     "nomeBebe": "Elisa",
-    "dataNascimento": "2026-07-29",
+    "dataNascimento": "2026-08-01",
     "horaNascimento": "15:00",
     "peso": "1,100",
     "comprimento": "30",
-    "nomeMaePai": "AndrÃÂ©a",
+    "corOlhos": "n/a",
+    "corCabelo": "sem",
+    "nomeMaePai": "Andrea",
     "parteira": "ANDREA",
-    "parteiraAuxiliar": "AlÃÂ­cia",
+    "parteiraAuxiliar": "Alicia",
     "localNascimento": "Rio de Janeiro-NDC"
   },
   {
@@ -20,9 +22,9 @@
     "comprimento": "30",
     "corOlhos": "n/a",
     "corCabelo": "sem",
-    "nomeMaePai": "AndrÃ©a",
-    "parteira": "AndrÃ©a",
-    "parteiraAuxiliar": "AlÃ­cia",
-    "localNascimento": "Nova IguaÃ§u- RJ ( NDC)"
+    "nomeMaePai": "AndrÃÂ©a",
+    "parteira": "AndrÃÂ©a",
+    "parteiraAuxiliar": "AlÃÂ­cia",
+    "localNascimento": "Nova IguaÃÂ§u- RJ ( NDC)"
   }
 ]
